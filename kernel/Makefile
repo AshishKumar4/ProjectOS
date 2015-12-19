@@ -21,13 +21,14 @@ ARCHDIR:=arch/$(HOSTARCH)
 C:=c/
 
 include $(ARCHDIR)/make.config
-
+V:=$(C)/v86.o
+IDT:=$(C)/idt.o
+INIT:=$(C)/init.o
 CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
 CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
-INIT:=$(ARCHDIR)/init.s
-IDT:=$(ARCHDIR)/idt.s
+CPPALL:=$(C)/cpp.o
 x86_SUPPORT:=$(C)/*.o
 UTILS:=$(C)/utils.o
 UTILS1:=$(ARCHDIR)/utils.o
@@ -52,7 +53,7 @@ $(OBJS) \
 $(CRTEND_OBJ) \
 $(CRTN_OBJ) \
 
-all: myos.kernel
+all: build-cpp-nasm myos.kernel
 
 .PHONY: all clean install install-headers install-kernel
 
@@ -68,7 +69,7 @@ myos.kernel: $(OBJ_LINK_LIST) $(ARCHDIR)/linker.ld
 clean:
 	rm -f myos.kernel $(OBJS) $(ALL_OUR_OBJS) *.o */*.o */*/*.o
 
-install: install-headers install-kernel
+install: build-cpp-nasm install-headers install-kernel
 
 install-headers:
 	mkdir -p $(DESTDIR)$(INCLUDEDIR)
@@ -77,3 +78,9 @@ install-headers:
 install-kernel: myos.kernel
 	mkdir -p $(DESTDIR)$(BOOTDIR)
 	cp myos.kernel $(DESTDIR)$(BOOTDIR)
+
+build-cpp-nasm:
+	nasm -f elf nasm/v86.asm -o $(V)
+	nasm -f elf nasm/idt.s -o $(IDT)
+	nasm -f elf nasm/init.s -o $(INIT)
+	i686-elf-g++ -c include/cpp/window.cpp -o $(CPPALL)
