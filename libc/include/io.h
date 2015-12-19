@@ -1,13 +1,3 @@
-/***************************************************************************\
- * The Mattise Kernel														*
- * Copyright 2007 Matthew Iselin											*
- * Licensed under the GPL													*
- *																			*
- * io.h																		*
- *																			*
- * Device manager, handles low-level I/O and driver installation			*
- *																			*
-\***************************************************************************/
 
 #ifndef DEVMAN_H
 #define DEVMAN_H
