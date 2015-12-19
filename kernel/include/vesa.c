@@ -1,6 +1,6 @@
 
 
-#include <mem.cc>
+#include <mem.c>
 #include<common.h>
 #define wVESA     1024
 #define hVESA     768

@@ -31,11 +31,14 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 CPPALL:=$(C)/cpp.o
 x86_SUPPORT:=$(C)/*.o
 UTILS:=$(C)/utils.o
+WINDOW:=include/window.o
 UTILS1:=$(ARCHDIR)/utils.o
 VESA:=include/vesa.o
 OBJS:=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o
+MAIN:=kernel/Main.cpp
+MAINOBJ:=kernel/main.o
 CRTI_OBJ:=$(ARCHDIR)/crti.o
 CRTBEGIN_OBJ:=$(shell $(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ:=$(shell $(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=crtend.o)
@@ -58,7 +61,7 @@ all: build-cpp-nasm myos.kernel
 .PHONY: all clean install install-headers install-kernel
 
 myos.kernel: $(OBJ_LINK_LIST) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(OBJ_LINK_LIST) $(LDFLAGS) $(LIBS) $(x86_SUPPORT)
+	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(MAINOBJ) $(OBJ_LINK_LIST) $(LDFLAGS) $(LIBS) $(x86_SUPPORT)
 
 %.o: %.c
 	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
@@ -83,4 +86,4 @@ build-cpp-nasm:
 	nasm -f elf nasm/v86.asm -o $(V)
 	nasm -f elf nasm/idt.s -o $(IDT)
 	nasm -f elf nasm/init.s -o $(INIT)
-	i686-elf-g++ -c include/cpp/window.cpp -o $(CPPALL)
+	i686-elf-g++ -c $(MAIN) -o $(MAINOBJ) -Iinclude

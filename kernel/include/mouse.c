@@ -64,7 +64,7 @@ void mouse_write(unsigned char a_write)
     mouse_read();
     interruptHandlerRegister(12,&mouse_handler);
 }
-int x=100,y=100;
+int mousex=100,mousey=100;
  void mouse_handler()
 {
   static unsigned char cycle = 0;
@@ -91,8 +91,8 @@ int x=100,y=100;
         RectD(10,10,50,50,1000,1000,90);*/
         deltax=mouse_bytes[1]/2;
         deltay=mouse_bytes[2]/2;
-    x+=(deltax);
-    y-=(deltay);
+    mousex+=(deltax);
+    mousey-=(deltay);
    // WriteText(mouse_bytes[0],100,200,1000,0);
   }
 }

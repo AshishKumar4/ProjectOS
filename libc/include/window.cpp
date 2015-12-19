@@ -4,7 +4,7 @@ extern void RectD(int x, int y, int width, int height, int C1,int C2, int C3);
 {
     public:
     int Width;
-    int Height;
+    int Heigh;
     int BackColor;
     struct buttons
     {
@@ -15,7 +15,7 @@ extern void RectD(int x, int y, int width, int height, int C1,int C2, int C3);
     void Draw(int x,int y)
     {
         RectD(x,y,Width,Height,BackColor,BackColor,BackColor);
-        RectD(x,y,Width,30,50,50,50);
+        RectD(x,y,width,30,50,50,50);
     }
 
 };
