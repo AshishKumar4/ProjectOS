@@ -11,8 +11,8 @@ void pitCallback(unsigned int _a, ...)
     clockTicks++;
     if(clockTicks % CLOCKS_PER_SEC == 0)
     {
-        scrWrite("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
-        scrWrite("Uptime: ");
+        printf("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
+        printf("Uptime: ");
         scrWriteHex(clockTicks/CLOCKS_PER_SEC);
     }
 }

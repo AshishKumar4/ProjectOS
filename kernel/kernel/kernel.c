@@ -1,6 +1,11 @@
 #include <kernel/tty.h>
 #include <mouse.c>
+#include <timer.c>
 char bc=0;
+void irq_register_install(unsigned char a,void (*f)(struct regs* r))
+{
+    interruptHandlerRegister(a,&f);
+}
 void kernel_early(void)
 {
     terminal_initialize();
@@ -17,13 +22,13 @@ void kernel_early(void)
     //mouseinit();
     printf("Mouse Initialized \n");
     printf("Initializing VESA GUI Mode 1024 x 768 32000^3 colors");
-    setVesa(0x117);
+    //setVesa(0x117);
     mouseinit();
 }
 void kernel_start(void)
 {
 }
-int main()
+int main() //ignore, its nothing
 {
     return 0;
 }
